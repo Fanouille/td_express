@@ -6,7 +6,13 @@ const app = Express();
 
 app.use(BP.json());
 
-app.use('/posts', require('./routes/posts').router);
+app.use(BP.urlencoded({
+    extended: true
+}));
+app.use(BP.urlencoded())
+
+app.use('/bottles', require('./routes/bottles').router);
+//app.use(require('./routes/users').router);
 
 app.listen(8080, (err) => {
 
@@ -17,4 +23,7 @@ app.listen(8080, (err) => {
         console.log('app listening on port 8080');
     }
 });
+
+
+
 
