@@ -34,7 +34,7 @@ router.get('/:id', (req, res, next) => {//pas identification
 
 
 
-Passport.use(new BasicStrategy((name,role,password,done) =>{
+Passport.use(new BasicStrategy((name,password,done) =>{
     DB.get('SELECT * FROM USERS WHERE NAME = ?',[name],(err,user)=>{
         if(err){
             return done(err);
@@ -53,7 +53,7 @@ Passport.use(new BasicStrategy((name,role,password,done) =>{
 
 
 
-router.post('/', Passport.authenticate('basic',{session:false}),(req,res) =>{
+router.post('/', Passport.authenticate('basic',{session:false}),(req,res,user) =>{
     if(user.ROLE === 'admin'){
         Celebrate.celebrate({
             body: Joi.object().keys({
@@ -74,7 +74,6 @@ router.post('/', Passport.authenticate('basic',{session:false}),(req,res) =>{
         }
     }
     //user simple, pas authorisé
-    alert("You're not an administrator")
     console.log("You're not an administrator.")
 });
 
@@ -100,7 +99,7 @@ router.delete('/:id', Passport.authenticate('basic',{session:false}),(req, res, 
             return res.end();
         });
     }
-    alert("You're not an administrator.")
+    console.log("You're not an administrator.")
 });
 
 
